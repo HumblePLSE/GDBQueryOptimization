@@ -4,12 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.google.gson.JsonObject;
-import org.example.package org.example.project;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.google.gson.JsonObject;
 import org.example.project.common.oracle.CompositeTestOracle;
 import org.example.project.common.oracle.TestOracle;
 import org.example.project.common.schema.AbstractSchema;

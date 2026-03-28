@@ -7,15 +7,6 @@ public final class ExecutionTimer {
 
     public ExecutionTimer start() {
         startTime = System.currentTimeMillis();
-package org.example.project;
-
-public final class ExecutionTimer {
-
-    private long startTime;
-    private long endTime;
-
-    public ExecutionTimer start() {
-        startTime = System.currentTimeMillis();
         return this;
     }
 

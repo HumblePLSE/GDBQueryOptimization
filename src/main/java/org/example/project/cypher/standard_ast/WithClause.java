@@ -30,38 +30,6 @@ public class WithClause extends ProjectingClause {
 
     public WithClause(List<ContextVariable> contextVariables, boolean useWildcard, WhereClause whereClause, List<ReadingSubClause> readingSubClauses, boolean distinct, CollectSubquery collectSubquery,ExistSubQuery existSubQuery,CountSubquery countSubquery) {
         super("WITH");
-        this.contextVariables = contextVariables != null ? cpackage org.example.project.cypher.standard_ast;
-
-import java.util.*;
-
-import org.example.project.cypher.gen.*;
-import org.example.project.Randomly;
-import org.example.project.cypher.schema.IPropertyInfo;
-import org.example.project.cypher.standard_ast.expr.ExprUnknownVal;
-
-/**
- * Represents a WITH clause in Cypher queries.
- * Supports carrying over context variables to the next query part.
- */
-public class WithClause extends ProjectingClause {
-
-    private final List<ContextVariable> contextVariables; // List of context variables, each with a name and optional alias.
-    private final boolean useWildcard;          // Indicates if the wildcard (*) is used
-
-    private final boolean distinct;
-
-    private final CollectSubquery collectSubquery;
-
-    private final WhereClause whereClause;
-
-    private final ExistSubQuery existSubQuery;
-
-    private final CountSubquery countSubQuery;
-
-    private final List<ReadingSubClause> readingSubClauses; // List of reading sub-clauses like ORDER BY, LIMIT, SKIP, WHERE
-
-    public WithClause(List<ContextVariable> contextVariables, boolean useWildcard, WhereClause whereClause, List<ReadingSubClause> readingSubClauses, boolean distinct, CollectSubquery collectSubquery,ExistSubQuery existSubQuery,CountSubquery countSubquery) {
-        super("WITH");
         this.contextVariables = contextVariables != null ? contextVariables : new ArrayList<>();
         this.useWildcard = useWildcard;
         this.whereClause = whereClause;

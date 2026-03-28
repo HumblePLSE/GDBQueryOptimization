@@ -25,33 +25,6 @@ public class RelationshipPatternClause extends Clause {
         this.relationshipVariable = relationshipVariable;
         this.direction = direction;
         this.relationshipType = relationshipType;
-        package org.example.project.cypher.standard_ast;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import org.example.project.cypher.gen.*;
-import org.example.project.Randomly;
-import org.example.project.cypher.schema.IRelationTypeInfo;
-
-/**
- * Represents a relationship pattern in Cypher queries.
- * relationshipPattern ::= [<direction>] relationshipType {relationshipProperties}
- */
-public class RelationshipPatternClause extends Clause {
-
-    private final String relationshipVariable; // 关系变量名
-    private final String direction;           // 关系的方向: "FROM", "TO", "ANY", or "NONE"
-    private final IRelationTypeInfo relationshipType; // 关系类型
-    private final Map<String, Object> properties;     // 关系属性
-
-    public RelationshipPatternClause(String relationshipVariable, String direction, IRelationTypeInfo relationshipType, Map<String, Object> properties) {
-        super("RelationshipPattern");
-        this.relationshipVariable = relationshipVariable;
-        this.direction = direction;
-        this.relationshipType = relationshipType;
         this.properties = properties;
     }
 

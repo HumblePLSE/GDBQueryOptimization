@@ -92,100 +92,6 @@ public class GraphManager {
         return new GraphManager(
                 nodes,
                 relationships,
-                this.schema, // package org.example.project.cypher.gen;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.example.project.GlobalState;
-import org.example.project.MainOptions;
-import org.example.project.Randomly;
-import org.example.project.cypher.CypherQueryAdapter;
-import org.example.project.cypher.ICypherSchema;
-import org.example.project.cypher.schema.CypherSchema;
-import org.example.project.cypher.schema.ILabelInfo;
-import org.example.project.cypher.schema.IPropertyInfo;
-import org.example.project.cypher.schema.IRelationTypeInfo;
-import org.example.project.cypher.standard_ast.CypherType;
-import org.example.project.cypher.standard_ast.expr.ExprUnknownVal;
-import org.opencypher.gremlin.translation.ir.model.As;
-
-
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
-
-public class GraphManager {
-    private List<AbstractNode> nodes = new ArrayList<>();
-    private List<AbstractRelationship> relationships = new ArrayList<>();
-    private CypherSchema schema;
-    private MainOptions options;
-
-    //private Map<IPropertyInfo, List<Object>> propertyValues = new HashMap<>();
-
-    private NodeVariableManager nodeVariableManager = new NodeVariableManager();
-
-    private RelationshipVariableManager relationshipVariableManager=new RelationshipVariableManager();
-
-    private PathVariableManager pathVariableManager=new PathVariableManager();
-
-    private AsVariableManager asVariableManager=new AsVariableManager();
-
-    private int presentNodeID = 0;
-
-    private int presentRelationshipID=0;
-    public void addNodeNum(){
-        NodeNumber++;
-    }
-
-    public void decreaseNodeNum(){ NodeNumber--;}
-
-    public CypherSchema getSchema(){return schema;}
-    private int NodeNumber ;
-
-    private Randomly randomly = new Randomly();
-
-    public GraphManager(MainOptions options){
-
-        this.options = options;
-        this.NodeNumber = options.getMaxNodeNum();
-        this.schema = new CypherSchema().GenerateSchema(options.getMaxNodeNum()/10);
-    }
-
-    // 新增的构造函数（参数列表需匹配所有字段）
-    private GraphManager(
-            List<AbstractNode> nodes,
-            List<AbstractRelationship> relationships,
-            CypherSchema schema,
-            MainOptions options,
-            NodeVariableManager nodeVarManager,
-            RelationshipVariableManager relVarManager,
-            PathVariableManager pathVarManager,
-            AsVariableManager asVarManager,
-            int presentNodeID,
-            int presentRelationshipID,
-            int nodeNumber,
-            Randomly randomly
-    ) {
-        this.nodes = new ArrayList<>(nodes);
-        this.relationships = new ArrayList<>(relationships);
-        this.schema = schema;
-        this.options = options;
-        //this.propertyValues = new HashMap<>(propertyValues);
-        this.nodeVariableManager = nodeVarManager;
-        this.relationshipVariableManager = relVarManager;
-        this.pathVariableManager = pathVarManager;
-        this.asVariableManager = asVarManager;
-        this.presentNodeID = presentNodeID;
-        this.presentRelationshipID = presentRelationshipID;
-        this.NodeNumber = nodeNumber;
-        this.randomly = randomly;
-    }
-
-    public GraphManager Copy() {
-
-        // 创建新实例
-        return new GraphManager(
-                nodes,
-                relationships,
                 this.schema, // 假设 CypherSchema 是不可变的
                 this.options, // 假设 MainOptions 是不可变的
                 this.nodeVariableManager.Copy(),
@@ -222,7 +128,8 @@ public class GraphManager {
     public int getNodeNumber(){return NodeNumber;}
 
     public List<CypherQueryAdapter> generateCreateGraphQueries(){
-        List<CypherQueryAdapter> results = new ArrayList<>(generateIndexQueries());
+         //List<CypherQueryAdapter> results = new ArrayList<>(generateIndexQueries());
+        List<CypherQueryAdapter> results = new ArrayList<>();
         Randomly randomly1=new Randomly();
         int relationshipNum = randomly1.getInteger(0,NodeNumber*5);//debug
 
@@ -234,7 +141,7 @@ public class GraphManager {
                 node.setProperty("id",presentNodeID);
                 presentNodeID++;
             }
-            nodes.add(node);
+             nodes.add(node);
             StringBuilder sb = new StringBuilder();
             sb.append("CREATE ");
             sb.append("(n0 ");
@@ -867,7 +774,7 @@ public class GraphManager {
     }
 
     //提取来自节点，关系，路径的函数值
-    public Map<String, Object> extractTargetFunctionMap() {
+    /*public Map<String, Object> extractTargetFunctionMap() {
         Map<String, Object> functionMap = new HashMap<>();
 
         // 处理节点变量
@@ -891,6 +798,54 @@ public class GraphManager {
         // 处理路径变量
         for (String pathVariable : pathVariableManager.getAllPathVariables()) {
             for (AbstractPath.PathFunction function : AbstractPath.PathFunction.values()) {
+                String functionKey = function.getFunctionName() + "(" + pathVariable + ")";
+                Object unknownValue = createUnknownValue(function.getReturnType());
+                functionMap.put(functionKey, unknownValue);
+            }
+        }
+
+        return functionMap;
+    }*/
+
+    public Map<String, Object> extractTargetFunctionMap() {
+        Map<String, Object> functionMap = new HashMap<>();
+
+        // 处理节点变量
+        for (String nodeVariable : nodeVariableManager.getAllNodeVariables()) {
+            for (AbstractNode.NodeFunction function : AbstractNode.NodeFunction.values()) {
+                // Memgraph 不支持对节点类型使用 MAX/MIN 聚合
+                if ("memgraph".equalsIgnoreCase(options.getTargetDb()) &&
+                        (function == AbstractNode.NodeFunction.MAX || function == AbstractNode.NodeFunction.MIN)) {
+                    continue;
+                }
+                String functionKey = function.getFunctionName() + "(" + nodeVariable + ")";
+                Object unknownValue = createUnknownValue(function.getReturnType());
+                functionMap.put(functionKey, unknownValue);
+            }
+        }
+
+        // 处理关系变量
+        for (String relationshipVariable : relationshipVariableManager.getAllRelationshipVariables()) {
+            for (AbstractRelationship.RelationshipFunction function : AbstractRelationship.RelationshipFunction.values()) {
+                // Memgraph 不支持对关系类型使用 MAX/MIN 聚合
+                if ("memgraph".equalsIgnoreCase(options.getTargetDb()) &&
+                        (function == AbstractRelationship.RelationshipFunction.MAX || function == AbstractRelationship.RelationshipFunction.MIN)) {
+                    continue;
+                }
+                String functionKey = function.getFunctionName() + "(" + relationshipVariable + ")";
+                Object unknownValue = createUnknownValue(function.getReturnType());
+                functionMap.put(functionKey, unknownValue);
+            }
+        }
+
+        // 处理路径变量
+        for (String pathVariable : pathVariableManager.getAllPathVariables()) {
+            for (AbstractPath.PathFunction function : AbstractPath.PathFunction.values()) {
+                // Memgraph 不支持对路径类型使用 MAX/MIN 聚合
+                if ("memgraph".equalsIgnoreCase(options.getTargetDb()) &&
+                        (function == AbstractPath.PathFunction.MAX || function == AbstractPath.PathFunction.MIN)) {
+                    continue;
+                }
                 String functionKey = function.getFunctionName() + "(" + pathVariable + ")";
                 Object unknownValue = createUnknownValue(function.getReturnType());
                 functionMap.put(functionKey, unknownValue);

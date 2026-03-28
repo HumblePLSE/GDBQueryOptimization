@@ -21,29 +21,6 @@ public class UnionClause extends Clause {
     /**
      * Converts the UnionClause into Cypher syntax.
      *
-     package org.example.project.cypher.standard_ast;
-
-/**
- * Represents a UNION clause in a Cypher query.
- * Allows combining the results of two or more queries.
- */
-public class UnionClause extends Clause {
-
-    private final boolean all; // Indicates if UNION ALL should be used
-
-    /**
-     * Constructor for UnionClause.
-     *
-     * @param all True if UNION ALL should be used, false for UNION.
-     */
-    public UnionClause(boolean all) {
-        super("UNION");
-        this.all = all;
-    }
-
-    /**
-     * Converts the UnionClause into Cypher syntax.
-     *
      * @return A string representing the UNION clause in Cypher syntax.
      */
     @Override

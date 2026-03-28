@@ -4,12 +4,6 @@ import org.example.project.cypher.standard_ast.CypherType;
 
 public interface IPropertyInfo {
     /**
-  package org.example.project.cypher.schema;
-
-import org.example.project.cypher.standard_ast.CypherType;
-
-public interface IPropertyInfo {
-    /**
      * 属性名
      * @return
      */

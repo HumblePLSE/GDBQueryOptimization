@@ -5,13 +5,6 @@ import org.example.project.cypher.gen.*;
 
 /**
  * Represents an "AS" clause in Cypher queries.
- * Responsible for creating alipackage org.example.project.cypher.standard_ast;
-
-import org.example.project.Randomly;
-import org.example.project.cypher.gen.*;
-
-/**
- * Represents an "AS" clause in Cypher queries.
  * Responsible for creating aliases for variables and their associated objects.
  */
 public class AsClause extends Clause {

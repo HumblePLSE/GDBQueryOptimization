@@ -2,10 +2,6 @@ package org.example.project.cypher.gen;
 
 import org.example.project.Randomly;
 import org.example.project.cypher.ast.ILabel;
-import org.example.projpackage org.example.project.cypher.gen;
-
-import org.example.project.Randomly;
-import org.example.project.cypher.ast.ILabel;
 import org.example.project.cypher.ast.IProperty;
 import org.example.project.cypher.schema.ILabelInfo;
 import org.example.project.cypher.standard_ast.Label;

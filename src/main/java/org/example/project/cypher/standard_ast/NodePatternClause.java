@@ -26,34 +26,6 @@ public class NodePatternClause extends Clause {
     public NodePatternClause(String nodeVariable, List<ILabelInfo> nodeLabels, Map<String, Object> SelectProperties, WhereClause whereClause) {
         super("NodePattern");
         this.nodeVariable = nodeVariable;
-        this.nodeLabelspackage org.example.project.cypher.standard_ast;
-
-import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import org.example.project.cypher.gen.GraphManager;
-import org.example.project.cypher.gen.AbstractNode;
-import org.example.project.Randomly;
-import org.example.project.cypher.gen.NodeVariableManager;
-import org.example.project.cypher.schema.ILabelInfo;
-import org.example.project.cypher.schema.IPropertyInfo;
-import org.example.project.cypher.schema.IRelationTypeInfo;
-
-/**
- * Represents a node pattern in Cypher queries.
- * nodePattern ::= (nodeLabels {nodeProperties})
- */
-public class NodePatternClause extends Clause {
-
-    private final String nodeVariable;       // 节点变量名
-    private final List<ILabelInfo> nodeLabels;       // 节点标签
-    private final Map<String, Object> SelectProperties; // 节点属性
-    private final WhereClause whereClause;       // WHERE 子句（可选）
-
-    public NodePatternClause(String nodeVariable, List<ILabelInfo> nodeLabels, Map<String, Object> SelectProperties, WhereClause whereClause) {
-        super("NodePattern");
-        this.nodeVariable = nodeVariable;
         this.nodeLabels = nodeLabels;
         this.SelectProperties=SelectProperties;
         this.whereClause = whereClause;

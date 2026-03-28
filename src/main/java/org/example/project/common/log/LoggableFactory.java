@@ -1,10 +1,5 @@
 package org.example.project.common.log;
 
-public interface Loggable {
-    String getLogString();
-}
-package org.example.project.common.log;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;

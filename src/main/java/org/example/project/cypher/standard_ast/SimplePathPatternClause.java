@@ -53,61 +53,6 @@ public class SimplePathPatternClause extends Clause {
         StringBuilder sb = new StringBuilder();
 
         // 添加左侧路径
-        package org.example.project.cypher.standard_ast;
-
-import org.example.project.cypher.ast.Direction;
-import org.example.project.cypher.gen.AbstractRelationship;
-import org.example.project.cypher.gen.GraphManager;
-import org.example.project.cypher.ast.IClause;
-import org.example.project.Randomly;
-import org.example.project.cypher.gen.AbstractNode;
-import org.example.project.cypher.gen.NodeVariableManager;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-
-/**
- * Represents a Simple Path Pattern in Cypher queries.
- *
- * simplePathPattern ::= nodePattern [ { relationshipPattern nodePattern }* ]
- *
- * Context-free grammar for simplePathPattern:
- * simplePathPattern ::= nodePattern [ { relationshipPattern nodePattern }* ]
- *
- * where:
- * - nodePattern is a node represented by its labels and properties.
- * - relationshipPattern represents the relationship between two nodes.
- *
- * A Simple Path Pattern in a Cypher query consists of a series of nodes and relationships.
- * The path starts from a randomly selected node and is extended through relationships in random directions (from, to, any).
- * The path terminates when either no more relationships are found or a random direction 'none' is chosen to stop the path extension.
- */
-public class SimplePathPatternClause extends Clause {
-
-    private final NodePatternClause startNodePattern;  // The starting node's pattern
-    private final List<RelationshipNodePair> leftPath; // 左侧路径
-    private final List<RelationshipNodePair> rightPath; // 右侧路径
-    // List of RelationshipNodePairs (relationship and connected nodes)
-
-    /**
-     * Constructor to create a SimplePathPatternClause.
-     *
-     * @param startNodePattern The pattern for the starting node.
-     * path A list of RelationshipNodePair representing the path from start node to end node.
-     */
-    public SimplePathPatternClause(NodePatternClause startNodePattern, List<RelationshipNodePair> leftpath,List<RelationshipNodePair> rightPath) {
-        super("SimplePathPattern");
-        this.startNodePattern = startNodePattern;
-        this.leftPath = leftpath;
-        this.rightPath=rightPath;
-    }
-
-    @Override
-    public String toCypher() {
-        StringBuilder sb = new StringBuilder();
-
-        // 添加左侧路径
         for (int i = leftPath.size() - 1; i >= 0; i--) {
             RelationshipNodePair pair = leftPath.get(i);
             sb.append(pair.node.toCypher()).append(" ").append(pair.relationship.toCypher()).append(" ");

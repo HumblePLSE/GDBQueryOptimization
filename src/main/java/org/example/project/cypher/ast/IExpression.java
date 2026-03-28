@@ -1,9 +1,5 @@
 package org.example.project.cypher.ast;
 
-public interface ICypherType {
-}
-package org.example.project.cypher.ast;
-
 public interface IExpression {
 
     IExpression getParentExpression();

@@ -12,20 +12,6 @@ public class GlobalState<O extends DBMSSpecificOptions, C extends projectDBConne
     protected C databaseConnection;
     private Randomly r;
     private MainOptions options;
-    private O dbpackage org.example.project;
-
-import org.example.project.common.query.projectResultSet;
-import org.example.project.common.query.Query;
-import org.example.project.common.schema.AbstractSchema;
-import org.example.project.common.schema.AbstractTable;
-
-import java.util.List;
-
-public class GlobalState<O extends DBMSSpecificOptions, C extends projectDBConnection> {
-
-    protected C databaseConnection;
-    private Randomly r;
-    private MainOptions options;
     private O dbmsSpecificOptions;
 
     private Main.StateLogger logger;

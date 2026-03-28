@@ -72,80 +72,6 @@
             <version>4.1.1</version>
         </dependency>
         <dependency>
-            <groupId>org.postgresql</groupId><?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.example</groupId>
-    <artifactId>project</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.beust</groupId>
-            <artifactId>jcommander</artifactId>
-            <version>1.81</version>
-        </dependency>
-        <dependency>
-            <groupId>com.redislabs</groupId>
-            <artifactId>jredisgraph</artifactId>
-            <version>2.5.1</version>
-        </dependency>
-        <dependency>
-            <groupId>net.bitnine</groupId>
-            <artifactId>agensgraph-jdbc</artifactId>
-            <version>1.4.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-cypher-dsl</artifactId>
-            <version>2021.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>4.3.0-m1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.reactivestreams</groupId>
-            <artifactId>reactive-streams</artifactId>
-            <version>1.0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.arcadedb</groupId>
-            <artifactId>arcadedb-postgresw</artifactId>
-            <version>22.8.1</version>
-        </dependency>
-        <!--    <dependency>-->
-        <!--      <groupId>org.neo4j</groupId>-->
-        <!--      <artifactId>neo4j-jdbc-driver</artifactId>-->
-        <!--      <version>3.5.2</version>-->
-        <!--    </dependency>-->
-
-        <!--    <dependency>-->
-        <!--      <groupId>org.neo4j.driver</groupId>-->
-        <!--      <artifactId>neo4j-java-driver</artifactId>-->
-        <!--      <version>4.3.4</version>-->
-        <!--    </dependency>-->
-        <dependency>
-            <groupId>net.sourceforge.jexcelapi</groupId>
-            <artifactId>jxl</artifactId>
-            <version>2.6.12</version>
-        </dependency>
-        <dependency>
-            <groupId>org.neo4j.driver</groupId>
-            <artifactId>neo4j-java-driver</artifactId>
-            <version>4.1.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.24</version>
@@ -178,7 +104,7 @@
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId> slf4j-simple</artifactId>
+            <artifactId>slf4j-simple</artifactId>
             <version>1.7.32</version>
         </dependency>
         <dependency>
@@ -226,39 +152,17 @@
     </dependencies>
 
     <build>
-        <finalName>tool</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.8.1</version>
                 <configuration>
-                    <release>11</release>
-                    <encoding>UTF-8</encoding>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.1</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.example.project.Main</mainClass>
-                                </transformer>
-                            </transformers>
-                            <finalName>tool</finalName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -266,10 +170,38 @@
                 <configuration>
                     <archive>
                         <manifest>
+                            <mainClass>org.example.project.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.5.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.example.project.Main</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
 </project>

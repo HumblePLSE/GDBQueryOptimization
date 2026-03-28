@@ -24,32 +24,6 @@ public class QuantifiedPathPatternClause {
     private String shortestPath;
 
     public static class LengthQuantifier {
-        private Integer fixpackage org.example.project.cypher.standard_ast;
-
-import org.example.project.Randomly;
-import org.example.project.cypher.gen.AbstractNode;
-import org.example.project.cypher.gen.GraphManager;
-import org.example.project.cypher.gen.NodeVariableManager;
-import org.example.project.cypher.gen.PathVariableManager;
-import org.example.project.cypher.schema.CypherSchema;
-import org.example.project.cypher.standard_ast.expr.ExprUnknownVal;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class QuantifiedPathPatternClause {
-    private final NodePatternClause startNodePattern;
-
-    private final NodePatternClause endNodePattern;
-    private int direction;  // 方向：0 = 双向, 1 = <-, 2 = ->
-    private String relationshipVariable;  // 关系变量名
-    private List<String> typeIdentifiers;  // 关系类型集合
-    private LengthQuantifier lengthQuantifier;  // 长度量化
-    private String pathVariable;//路径变量
-    private String shortestPath;
-
-    public static class LengthQuantifier {
         private Integer fixedLength;  // 定长长度
         private Integer lowerBound;  // 下界
         private Integer upperBound;  // 上界

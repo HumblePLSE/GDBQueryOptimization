@@ -10,18 +10,6 @@ public class ComparisonAssertion implements ExpressionAssertion {
 
     public ComparisonAssertion(BinaryComparisonExpression.BinaryComparisonOperation operation, Object leftOp, boolean target) {
         this.leftOp = leftOp;
-  package org.example.project.cypher.gen.assertion;
-
-import org.example.project.cypher.standard_ast.expr.BinaryComparisonExpression;
-import org.example.project.cypher.standard_ast.expr.ExprUnknownVal;
-
-public class ComparisonAssertion implements ExpressionAssertion {
-    private BinaryComparisonExpression.BinaryComparisonOperation operation;
-    private Object leftOp;
-    private boolean target;
-
-    public ComparisonAssertion(BinaryComparisonExpression.BinaryComparisonOperation operation, Object leftOp, boolean target) {
-        this.leftOp = leftOp;
         this.operation = operation;
         this.target = target;
     }

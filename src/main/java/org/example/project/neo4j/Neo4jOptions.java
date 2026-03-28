@@ -34,42 +34,6 @@ public class Neo4jOptions implements DBMSSpecificOptions{
         if(jsonObject.has("password")){
             options.password = jsonObject.get("password").getAsString();
         }
-  package org.example.project.neo4j;
-
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.Parameters;
-import com.google.gson.JsonObject;
-import org.example.project.DBMSSpecificOptions;
-import org.example.project.OracleFactory;
-import org.example.project.common.oracle.TestOracle;
-
-
-
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
-
-@Parameters(separators = "=", commandDescription = "Neo4J (default port: " + Neo4jOptions.DEFAULT_PORT
-        + ", default host: " + Neo4jOptions.DEFAULT_HOST)
-public class Neo4jOptions implements DBMSSpecificOptions{
-
-    public static final String DEFAULT_HOST = "localhost";
-    public static final int DEFAULT_PORT = 7687; //todo 改
-
-    public static Neo4jOptions parseOptionFromFile(JsonObject jsonObject){
-        Neo4jOptions options = new Neo4jOptions();
-        if(jsonObject.has("host")){
-            options.host = jsonObject.get("host").getAsString();
-        }
-        if(jsonObject.has("port")){
-            options.port = jsonObject.get("port").getAsInt();
-        }
-        if(jsonObject.has("username")){
-            options.username = jsonObject.get("username").getAsString();
-        }
-        if(jsonObject.has("password")){
-            options.password = jsonObject.get("password").getAsString();
-        }
         if(jsonObject.has("use_jdbc")){
             options.useJDBC = jsonObject.get("use_jdbc").getAsBoolean();
         }

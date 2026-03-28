@@ -1,10 +1,5 @@
 package org.example.project.cypher.ast;
 
-public enum Direction {
-    LEFT, RIGHT, BOTH, NONE
-}
-package org.example.project.cypher.ast;
-
 /**
  * Represents a generic Clause in a Cypher query.
  * All specific clauses (e.g., MATCH, CREATE, RETURN) must implement this interface.

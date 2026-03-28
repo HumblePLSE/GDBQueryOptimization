@@ -33,41 +33,6 @@ public class DifferentialNonEmptyBranchOracle<G extends GlobalState<?, CypherCon
 
 
     public DifferentialNonEmptyBranchOracle(G globalState, Generator generator) {
-        this.globalState = globalStatepackage org.example.project.cypher.oracle;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.example.project.GlobalState;
-import org.example.project.common.query.projectResultSet;
-import org.example.project.common.oracle.TestOracle;
-//import org.example.project.cypher.CypherGlobalState;
-import org.example.project.cypher.CypherConnection;
-import org.example.project.cypher.CypherQueryAdapter;
-//import org.example.project.cypher.ast.IClauseSequence;
-//import org.example.project.cypher.dsl.IQueryGenerator;
-import org.example.project.cypher.gen.Generator;
-import org.example.project.cypher.schema.CypherSchema;
-import org.example.project.exceptions.MultipleExceptionsOccurredException;
-import org.example.project.exceptions.ResultMismatchException;
-
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.util.List;
-import java.util.concurrent.CompletionException;
-
-public class DifferentialNonEmptyBranchOracle<G extends GlobalState<?, CypherConnection>> implements TestOracle {
-
-    private final G globalState;
-    private Generator queryGenerator;
-
-    public static final int BRANCH_PAIR_SIZE = 65536;
-    public static final int BRANCH_SIZE = 1000000;
-
-    public static final int PORT = 9009;
-    public static final byte CLEAR = 1, PRINT_MEM = 2;
-
-
-    public DifferentialNonEmptyBranchOracle(G globalState, Generator generator) {
         this.globalState = globalState;
         //todo 整个oracle的check会被执行多次，一直是同一个oracle实例，因此oracle本身可以管理种子库
         this.queryGenerator = generator;
@@ -80,8 +45,8 @@ public class DifferentialNonEmptyBranchOracle<G extends GlobalState<?, CypherCon
 
         String queryString = sequence.getQueryString();
         System.out.println(queryString);
-        //String queryString1 = "MATCH p0 = (:l6) WHERE ((true AND false) XOR true) WITH count(p0) AS alias0, p0 AS alias1 SKIP 0 WITH alias0, count(alias1) AS alias2, max(alias1) AS alias3, alias1 AS alias4 OPTIONAL MATCH (:l10:l4), (n0:l6:l2) -[r0:rt0]-> (:l1:l11:l5 {k1: true}) RETURN r0, alias4 SKIP 0\n";
-        //CypherQueryAdapter sequence1 = new CypherQueryAdapter(queryString1);//debug
+        String queryString1 = "MATCH p0 = (:l6) WHERE ((true AND false) XOR true) WITH count(p0) AS alias0, p0 AS alias1 SKIP 0 WITH alias0, count(alias1) AS alias2, max(alias1) AS alias3, alias1 AS alias4 OPTIONAL MATCH (:l10:l4), (n0:l6:l2) -[r0:rt0]-> (:l1:l11:l5 {k1: true}) RETURN r0, alias4 SKIP 0\n";
+        CypherQueryAdapter sequence1 = new CypherQueryAdapter(queryString1);//debug
         //List<projectResultSet> results;
         //List<Long> resultstime;
         List<Pair<projectResultSet,Long>> results;

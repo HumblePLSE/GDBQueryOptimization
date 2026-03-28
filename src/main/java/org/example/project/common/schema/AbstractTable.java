@@ -10,18 +10,6 @@ import org.example.project.Randomly;
 public abstract class AbstractTable<C extends AbstractTableColumn<?, ?>, I extends TableIndex, G extends GlobalState<?, ?>>
         implements Comparable<AbstractTable<?, ?, ?>> {
 
-    protected static fipackage org.example.project.common.schema;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.example.project.GlobalState;
-import org.example.project.Randomly;
-
-public abstract class AbstractTable<C extends AbstractTableColumn<?, ?>, I extends TableIndex, G extends GlobalState<?, ?>>
-        implements Comparable<AbstractTable<?, ?, ?>> {
-
     protected static final int NO_ROW_COUNT_AVAILABLE = -1;
     protected final String name;
     private final List<C> columns;

@@ -54,62 +54,6 @@ public class projectResultSet implements Closeable {
     public List<String> resultToStringList() {
         List<String> l = new ArrayList<>();
         for (int i = 0; i < result.size(); ++i) {
-            l.add(getMpackage org.example.project.common.query;
-
-
-import com.alibaba.fastjson.JSONArray;
-import org.neo4j.driver.Record;
-
-import java.io.Closeable;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.*;
-import java.util.stream.Collectors;
-
-
-public class projectResultSet implements Closeable {
-
-    int resultRowNum;
-    List<Map<String, Object>> result;
-
-    public List<Map<String, Object>> getResult() {
-        return result;
-    }
-
-    public projectResultSet(){
-        result = new ArrayList<>();
-        resultRowNum = 0;
-    }
-
-    private String getMapAsString(Map<String, Object> m) {
-        String s = "{";
-        TreeSet<String> ts =new TreeSet<>(m.keySet());
-        for (String key : ts) {
-            if (m.get(key) == null || m.get(key).toString().contains("null")) {
-                s += key + ":null,";
-            } else {
-//                if(!(m.get(key) instanceof Number) && !(m.get(key) instanceof Boolean) && !(m.get(key) instanceof String)){
-//                    System.out.println(m.get(key).getClass());
-//                    System.exit(-1);
-//                }
-                s += key + ":" + m.get(key).toString() + ",";
-            }
-
-
-
-//            if(m.get(key) instanceof Double || m.get(key) instanceof Float){
-//                System.out.println("got double or float");
-//                System.exit(-1);
-//            }
-        }
-        s += "}";
-        return s;
-    }
-
-    public List<String> resultToStringList() {
-        List<String> l = new ArrayList<>();
-        for (int i = 0; i < result.size(); ++i) {
             l.add(getMapAsString(result.get(i)));
         }
         return l;

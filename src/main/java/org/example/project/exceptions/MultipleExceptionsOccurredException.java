@@ -5,13 +5,6 @@ import java.util.List;
 public class MultipleExceptionsOccurredException extends Exception {
     private List<Exception> exceptions;
 
-    public MultipleExceptionsOccurredException(String message, List<Expackage org.example.project.exceptions;
-
-import java.util.List;
-
-public class MultipleExceptionsOccurredException extends Exception {
-    private List<Exception> exceptions;
-
     public MultipleExceptionsOccurredException(String message, List<Exception> exceptions) {
         super(message);
         this.exceptions = exceptions;

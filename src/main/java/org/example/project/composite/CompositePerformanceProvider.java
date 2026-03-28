@@ -18,26 +18,6 @@ import java.util.List;
 import java.util.Set;
 
 public class CompositePerformanceProvider extends CypherProviderAdapter<CompositeOptions> {
- package org.example.project.composite;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import org.example.project.*;
-import org.example.project.common.log.LoggableFactory;
-import org.example.project.common.oracle.TestOracle;
-import org.example.project.cypher.CypherConnection;
-import org.example.project.cypher.CypherLoggableFactory;
-import org.example.project.cypher.CypherProviderAdapter;
-import org.example.project.cypher.CypherQueryAdapter;
-import org.example.project.neo4j.Neo4jOptions;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-public class CompositePerformanceProvider extends CypherProviderAdapter<CompositeOptions> {
     public CompositePerformanceProvider() {
         super( CompositeOptions.class);
     }

@@ -26,34 +26,6 @@ public interface ICypherSupport {
     boolean supportPowerOf();
     boolean supportUnaryAddOrSub();
     boolean supportCheckNull();
-    boolean spackage org.example.project.cypher;
-
-public interface ICypherSupport {
-
-    //clauses
-    boolean supportMatch();
-    boolean supportUnwind();
-    boolean supportInQueryCall();
-
-    boolean supportWith();
-
-    boolean supportCreate();
-    boolean supportMerge();
-    boolean supportSet();
-    boolean supportDelete();
-    boolean supportRemove();
-
-    //expressions
-    boolean supportOr();
-    boolean supportXor();
-    boolean supportAnd();
-    boolean supportNot();
-    boolean supportComparison();
-    boolean supportAddOrSub();
-    boolean supportMulOrDiv();
-    boolean supportPowerOf();
-    boolean supportUnaryAddOrSub();
-    boolean supportCheckNull();
     boolean supportListIn();
     boolean supportListGetByIndex();
     boolean supportListGetBySlice();

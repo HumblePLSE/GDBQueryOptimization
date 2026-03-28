@@ -56,64 +56,6 @@ public class CallSubquery extends Subqueries {
         if (!useWildcard) {
             /*// Include node variables
             NodeVariableManager nodeVariableManager = parentManager.getNodeVariableManager();
-            List<String> nodeVariables = new Arpackage org.example.project.cypher.standard_ast;
-
-import org.example.project.cypher.gen.*;
-import org.example.project.Randomly;
-import org.example.project.cypher.standard_ast.expr.ExprUnknownVal;
-
-import java.util.*;
-
-public class CallSubquery extends Subqueries {
-    private final List<String> importedVariables; // CALL (var1, var2) 中的变量
-    private final RootClause subQuery;             // 子查询结构体
-
-    private final boolean useWildcard; //是否使用通配符传递所有变量
-
-    public CallSubquery(List<String> importedVariables, RootClause subQuery, boolean useWildcard) {
-        super("CALL");
-        this.importedVariables = importedVariables;
-        this.subQuery = subQuery;
-        this.useWildcard = useWildcard;
-    }
-
-    @Override
-    public String toCypher() {
-        String imports = !importedVariables.isEmpty() ?
-                String.join(", ", importedVariables) : "";
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n");
-        sb.append("CALL");
-        sb.append("{");
-        if (useWildcard) sb.append("WITH * ");
-        else if(imports!="") sb.append("WITH ").append(imports).append(" ");
-        sb.append(subQuery.toCypher()).append("}");
-        sb.append("\n");
-        return sb.toString();
-    }
-
-    @Override
-    public boolean validate() {
-        return true;
-    }
-
-    /**
-     * 生成 CALL 子查询
-     *
-     * @param parentManager 父级上下文管理器
-     */
-    public static CallSubquery generateCallSubquery(GraphManager parentManager,Boolean hasWriting) {
-        Randomly randomly = new Randomly();
-        boolean useWildcard = randomly.getInteger(0, 5) == 0; // Randomly decide whether to use * (wildcard) 20%
-        GraphManager SubGraphManager = parentManager.Copy();
-        List<String> importedVariables = new ArrayList<>();
-        /*AbstractNode node=new AbstractNode();
-        SubGraphManager.getNodeVariableManager().generateNodeVariable(node);*/
-
-        // ------------------------- 步骤1：确定要导入的变量 -------------------------
-        if (!useWildcard) {
-            /*// Include node variables
-            NodeVariableManager nodeVariableManager = parentManager.getNodeVariableManager();
             List<String> nodeVariables = new ArrayList<>(nodeVariableManager.getAllNodeVariables());
 
             // Include relationship variables

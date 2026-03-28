@@ -23,31 +23,6 @@
  * "("
  * [ subpathVariableDeclaration ]
  * pathPatternExpression
- * [ parenthesizedPath/**
- * Context-Free Grammar for Graph Pattern in Cypher queries.
- * This defines the structure for a GraphPattern, which may consist of multiple PathPatterns
- * and an optional WHERE clause for filtering.
- * <p>
- * graphPattern ::=
- * pathPattern [ "," pathPattern ]* [ graphPatternWhereClause ]
- * <p>
- * graphPatternWhereClause ::=
- * "WHERE" booleanExpression
- * <p>
- * pathPattern ::=
- * [ pathVariableDeclaration ]
- * pathPatternExpression
- * <p>
- * pathVariableDeclaration ::=
- * pathVariable "="
- * <p>
- * pathPatternExpression ::=
- * parenthesizedPathPatternExpression | pathPatternPhrase
- * <p>
- * parenthesizedPathPatternExpression ::=
- * "("
- * [ subpathVariableDeclaration ]
- * pathPatternExpression
  * [ parenthesizedPathPatternWhereClause ]
  * ")"
  * <p>

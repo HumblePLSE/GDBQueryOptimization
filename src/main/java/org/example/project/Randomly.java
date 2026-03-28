@@ -32,40 +32,6 @@ public final class Randomly {
     private long seed;
 
     private void addToCache(long val) {
-        if (useCaching && cachedLongs.size() < capackage org.example.project;
-
-import org.example.project.cypher.standard_ast.CypherType;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.function.Supplier;
-
-//new import
-import java.time.LocalDate;
-import java.util.concurrent.ThreadLocalRandom;
-
-import org.example.project.cypher.standard_ast.CypherType;
-
-public final class Randomly {
-
-    private static StringGenerationStrategy stringGenerationStrategy = StringGenerationStrategy.ALPHANUMERIC;
-    private static int maxStringLength = 10;
-    private static boolean useCaching = true;
-    private static int cacheSize = 100;
-
-    private final List<Long> cachedLongs = new ArrayList<>();
-    private final List<String> cachedStrings = new ArrayList<>();
-    private final List<Double> cachedDoubles = new ArrayList<>();
-    private final List<byte[]> cachedBytes = new ArrayList<>();
-    private Supplier<String> provider;
-
-    private static final ThreadLocal<Random> THREAD_RANDOM = new ThreadLocal<>();
-    private long seed;
-
-    private void addToCache(long val) {
         if (useCaching && cachedLongs.size() < cacheSize && !cachedLongs.contains(val)) {
             cachedLongs.add(val);
         }

@@ -20,28 +20,6 @@ public class LimitClause extends ReadingSubClause {
     }
 
     /**
-     * Generates a random package org.example.project.cypher.standard_ast;
-
-import org.example.project.Randomly;
-
-/**
- * Represents a LIMIT clause in a Cypher query.
- * LIMIT specifies the maximum number of rows to return.
- */
-public class LimitClause extends ReadingSubClause {
-
-    private final int limit; // The maximum number of rows to return
-
-    /**
-     * Constructor for LimitClause.
-     * @param limit The maximum number of rows to return.
-     */
-    public LimitClause(int limit) {
-        super("LIMIT");
-        this.limit = limit;
-    }
-
-    /**
      * Generates a random LimitClause with a random limit value.
      * @return A randomly generated LimitClause.
      */

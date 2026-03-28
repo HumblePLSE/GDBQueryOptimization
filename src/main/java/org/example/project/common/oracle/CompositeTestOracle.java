@@ -10,18 +10,6 @@ public class CompositeTestOracle implements TestOracle {
     private final GlobalState<?, ?> globalState;
     private int i;
 
-    public CompositeTestOracle(List<TestOracpackage org.example.project.common.oracle;
-
-import java.util.List;
-
-import org.example.project.GlobalState;
-
-public class CompositeTestOracle implements TestOracle {
-
-    private final TestOracle[] oracles;
-    private final GlobalState<?, ?> globalState;
-    private int i;
-
     public CompositeTestOracle(List<TestOracle> oracles, GlobalState<?, ?> globalState) {
         this.globalState = globalState;
         this.oracles = oracles.toArray(new TestOracle[oracles.size()]);

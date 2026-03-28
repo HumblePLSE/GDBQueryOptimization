@@ -5,13 +5,6 @@ import java.nio.file.Files;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 
-ipackage org.example.project;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicLong;
-
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.JCommander.Builder;
 
@@ -409,7 +402,6 @@ public final class Main {
                 }
 
                 CypherExecutor executor = new CypherExecutor();
-                String filePath = "D:\\IdeaProject\\neo4j_projectnew\\project\\1.txt";
                 //executor.executeQueriesFromFile(filePath,state);//debug
 
 
@@ -488,35 +480,41 @@ public final class Main {
     }
 
     public static int executeMain(String... args) throws AssertionError {
-        args = Arrays.copyOf(args, args.length + 1);
-        args[args.length - 1] = "composite"; // 默认值为 composite
-
-
         List<DatabaseProvider<?, ?>> providers = getDBMSProviders(); // 不同的数据库的provider
-        Map<String, DBMSExecutorFactory<?, ?>> nameToProvider = new HashMap<>();
+         Map<String, DBMSExecutorFactory<?, ?>> nameToProvider = new HashMap<>();
         MainOptions options = new MainOptions();
         Builder commandBuilder = JCommander.newBuilder().addObject(options);
         for (DatabaseProvider<?, ?> provider : providers) {
             String name = provider.getDBMSName();
-            DBMSExecutorFactory<?, ?> executorFactory = new DBMSExecutorFactory<>(provider, options);
+              DBMSExecutorFactory<?, ?> executorFactory = new DBMSExecutorFactory<>(provider, options);
             commandBuilder = commandBuilder.addCommand(name, executorFactory.getCommand());
             nameToProvider.put(name, executorFactory);
-        }
-        JCommander jc = commandBuilder.programName("SQLancer").build();
+         }
+         JCommander jc = commandBuilder.programName("SQLancer").build();
         jc.parse(args);
 
-        if (jc.getParsedCommand() == null || options.isHelp()) {
+
+        if (options.isHelp()) {
             jc.usage();
             return options.getErrorExitCode();
         }
 
-        Randomly.initialize(options);
+        // 如果没有指定命令，默认使用 composite
+        String parsedCommand = jc.getParsedCommand();
+        if (parsedCommand == null) {
+            parsedCommand = "composite";
+        }
 
-        DBMSExecutorFactory<?, ?> executorFactory = nameToProvider.get(jc.getParsedCommand());
+        Randomly.initialize(options);
+        // 在 testConnection 之前，先从 config.json 加载所有版本号
+        loadVersionsFromConfig(options);
+        startContainers(options.getAvailableVersions(), options.getTargetDb());
+
+        DBMSExecutorFactory<?, ?> executorFactory = nameToProvider.get(parsedCommand);
         if (options.performConnectionTest()) {
             try {
                 executorFactory.getDBMSExecutor(options.getDatabasePrefix() + "connectiontest", new Randomly())
-                        .testConnection();
+                         .testConnection();
             } catch (Exception e) {
                 System.err.println(
                         "SQLancer failed creating a test database, indicating that SQLancer might have failed connecting to the DBMS. In order to change the username, password, host and port, you can use the --username, --password, --host and --port options.\n\n");
@@ -561,13 +559,18 @@ public final class Main {
                 }
             }
 
+            stopContainers(options.getAvailableVersions(), options.getTargetDb());
+            startContainers(options.getAvailableVersions(), options.getTargetDb());
 
-               /* try {
-                    // 执行 stop_delete.bat
-                    Process process1 = Runtime.getRuntime().exec("cmd /c D:\\IdeaProjects\\neo4j_projectadd\\project\\stop_delete.bat");//"D:\IdeaProject\neo4j_project\project\stop_delete.bat"
+
+
+
+                /*try {
+                    // 执行 stop.bat
+                    Process process1 = Runtime.getRuntime().exec("cmd /c D:\\IdeaProject\\memgraph\\project\\stop_delete.bat");//D:\IdeaProject\memgraph\project
                     process1.waitFor();  // 等待脚本执行完成
-                    // 执行 run_simple.bat
-                    Process process2 = Runtime.getRuntime().exec("cmd /c D:\\IdeaProjects\\neo4j_projectadd\\project\\run_simple.bat");
+                    // 执行 run.bat
+                    Process process2 = Runtime.getRuntime().exec("cmd /c D:\\IdeaProject\\memgraph\\project\\run_memgraph.bat");
                     process2.waitFor();  // 等待脚本执行完成
                     Thread.sleep(10000);
                 } catch (IOException | InterruptedException e) {
@@ -575,7 +578,7 @@ public final class Main {
                 }*/
             }
 
-        
+
         /*try {
             if (options.getTimeoutSeconds() == -1) {
                 execService.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
@@ -591,6 +594,133 @@ public final class Main {
         return 0;
     }
 
+    public static void stopContainers(List<String> versions, String dbName) {
+        System.out.println("Stopping and removing " + dbName + " containers...");
+
+        for (String version : versions) {
+            String containerName = dbName + "-" + version;
+
+            try {
+                // 1. 停止容器
+                System.out.println("Stopping " + dbName + " container: " + containerName);
+                int stopExitCode = runCommand("docker", "stop", containerName);
+
+                if (stopExitCode != 0) {
+                    System.out.println("Warning: Failed to stop container " + containerName +
+                            " (exit code: " + stopExitCode + ")");
+                }
+
+                // 2. 删除容器
+                System.out.println("Removing " + dbName + " container: " + containerName);
+                int removeExitCode = runCommand("docker", "rm", "-v", containerName);
+
+                if (removeExitCode != 0) {
+                    System.out.println("Warning: Failed to remove container " + containerName +
+                            " (exit code: " + removeExitCode + ")");
+                }
+
+            } catch (IOException | InterruptedException e) {
+                System.err.println("Error stopping/removing container " + containerName + ": " + e.getMessage());
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
+                return;
+            }
+        }
+
+        try {
+            System.out.println("Waiting 5 seconds...");
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            System.err.println("Interrupted while waiting: " + e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+
+        System.out.println("All specified " + dbName + " containers have been processed.");
+    }
+
+    public static void startContainers(List<String> versions, String dbName) {
+        int baseBoltPort = 7687;
+        int baseHttpPort;
+
+        if ("memgraph".equalsIgnoreCase(dbName)) {
+            baseHttpPort = 7444;
+        } else if ("neo4j".equalsIgnoreCase(dbName)) {
+            baseHttpPort = 7474;
+        } else {
+            throw new IllegalArgumentException("Unknown database name: " + dbName +
+                    ". Must be 'memgraph' or 'neo4j'.");
+        }
+
+        System.out.println("Starting " + versions.size() + " " + dbName + " containers...");
+
+        for (int i = 0; i < versions.size(); i++) {
+            String version = versions.get(i);
+            int boltPort = baseBoltPort + i;
+            int httpPort = baseHttpPort + i;
+
+            System.out.println("Starting " + dbName + " container version " + version +
+                    " (ports: " + boltPort + ", " + httpPort + ")...");
+
+            try {
+                String containerName = dbName + "-" + version;
+                int exitCode;
+
+                if ("memgraph".equalsIgnoreCase(dbName)) {
+                    System.out.println("Starting Memgraph container: " + containerName);
+                    exitCode = runCommand(
+                            "docker", "run", "-d",
+                            "-p", boltPort + ":7687",
+                            "-p", httpPort + ":7444",
+                            "--name", containerName,
+                            "memgraph/memgraph:" + version,
+                            "--query-execution-timeout-sec=20"
+                    );
+
+                    if (exitCode != 0) {
+                        System.err.println("Failed to start Memgraph container: " + containerName +
+                                ", exit code = " + exitCode);
+                        continue;
+                    }
+
+                } else if ("neo4j".equalsIgnoreCase(dbName)) {
+                    System.out.println("Starting Neo4j container: " + containerName);
+                    exitCode = runCommand(
+                            "docker", "run", "-d",
+                            "--name", containerName,
+                            "-e", "NEO4J_AUTH=neo4j/password",
+                            "-e", "NEO4J_dbms_memory_transaction_total_max=8GiB",
+                            "-e", "NEO4J_dbms_transaction_timeout=180s",
+                            "-p", httpPort + ":7474",
+                            "-p", boltPort + ":7687",
+                            "neo4j:" + version
+                    );
+
+                    if (exitCode != 0) {
+                        System.err.println("Failed to start Neo4j container: " + containerName +
+                                ", exit code = " + exitCode);
+                        continue;
+                    }
+
+                } else {
+                    throw new IllegalArgumentException("Unknown database name: " + dbName +
+                            ". Must be 'memgraph' or 'neo4j'.");
+                }
+
+                System.out.println("Waiting for " + dbName + " container (version " + version + ") to start...");
+                Thread.sleep(5000);
+
+                System.out.println(dbName + " container (version " + version + ") started successfully!");
+
+            } catch (IOException | InterruptedException e) {
+                System.err.println("Failed to start " + dbName + " container (version " + version + "): " + e.getMessage());
+                e.printStackTrace();
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        System.out.println("All " + versions.size() + " " + dbName + " containers processed!");
+    }
+
     static List<DatabaseProvider<?, ?>> providers = new ArrayList<>();
 
     public static List<DatabaseProvider<?, ?>> getDBMSProviders() {
@@ -603,5 +733,76 @@ public final class Main {
 
         }
         return providers;
+    }
+
+    private static int runCommand(String... command) throws IOException, InterruptedException {
+        ProcessBuilder pb = new ProcessBuilder(command);
+        pb.redirectErrorStream(true); // 合并 stdout 和 stderr
+        Process process = pb.start();
+
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(process.getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println("[docker] " + line);
+            }
+        }
+
+        return process.waitFor();
+    }
+
+    /**
+     * 从 config.json 文件中加载所有数据库版本号并存入 MainOptions
+     */
+    private static void loadVersionsFromConfig(MainOptions options) {
+        try {
+            // 查找 CompositeOptions 中的 config 路径
+            String configPath = "./config.json";
+
+            // 尝试从命令行参数或默认位置获取 config 文件
+            File configFile = new File(configPath);
+            if (!configFile.exists()) {
+                System.err.println("Warning: config.json not found at " + configPath);
+                options.setAvailableVersions(new ArrayList<>());
+                return;
+            }
+
+            // 使用 Gson 解析 JSON
+            com.google.gson.Gson gson = new com.google.gson.Gson();
+            FileReader fileReader = new FileReader(configFile);
+            com.google.gson.JsonObject jsonObject = gson.fromJson(fileReader, com.google.gson.JsonObject.class);
+            fileReader.close();
+
+            // 提取所有版本号
+            List<String> versions = new ArrayList<>();
+            for (String key : jsonObject.keySet()) {
+                // key 格式为 "database@version"，例如 "memgraph@3.8.1"
+                if (key.contains("@")) {
+                    String[] parts = key.split("@");
+                    if (parts.length == 2) {
+                        String version = parts[1];
+                        versions.add(version);
+
+                        // 也可以从对象内部验证 version 字段
+                        com.google.gson.JsonObject dbConfig = jsonObject.getAsJsonObject(key);
+                        if (dbConfig.has("version")) {
+                            String internalVersion = dbConfig.get("version").getAsString();
+                            if (!internalVersion.equals(version)) {
+                                System.out.println("Warning: Version mismatch for " + key +
+                                        " - Key: " + version + ", Internal: " + internalVersion);
+                            }
+                        }
+                    }
+                }
+            }
+
+            options.setAvailableVersions(versions);
+          //  System.out.println("Loaded " + versions.size() + " versions from config: " + versions);
+
+        } catch (Exception e) {
+            System.err.println("Error loading versions from config.json: " + e.getMessage());
+            e.printStackTrace();
+            options.setAvailableVersions(new ArrayList<>());
+        }
     }
 }

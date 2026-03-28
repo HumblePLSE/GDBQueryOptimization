@@ -7,15 +7,6 @@ import org.example.project.common.query.projectResultSet;
 import org.example.project.cypher.CypherConnection;
 import org.example.project.exceptions.DatabaseCrashException;
 import org.example.project.exceptions.MultipleExceptionsOccurredException;
-import org.example.project.exceptions.MustRestartDatapackage org.example.project.composite;
-
-import org.apache.commons.lang3.tuple.Pair;
-import org.example.project.GlobalState;
-import org.example.project.MainOptions;
-import org.example.project.common.query.projectResultSet;
-import org.example.project.cypher.CypherConnection;
-import org.example.project.exceptions.DatabaseCrashException;
-import org.example.project.exceptions.MultipleExceptionsOccurredException;
 import org.example.project.exceptions.MustRestartDatabaseException;
 
 import java.util.ArrayList;
@@ -390,10 +381,8 @@ public class CompositeConnection extends CypherConnection {
 
                 // 遍历所有的异常
                 for (Exception ex : exceptions) {
-                    if (ex.getCause() != null && ex.getCause().getMessage().contains("key not found: VariableSlotKey") && !ex.getMessage().contains("database 0")) {
-                        continue; // 跳过特定异常
-                    }
 
+                    //neo4j exception
                     if (ex.getCause() != null && ex.getCause().getMessage().contains("Failed to create") && ex.getCause().getMessage().contains("is missing")) {
                         continue; // 跳过特定异常
                     }
@@ -406,6 +395,100 @@ public class CompositeConnection extends CypherConnection {
                     if (ex.getCause() != null && ex.getCause().getMessage().contains("The shortest path algorithm does not work when the start and end nodes are the same.") ) {
                         continue; // 跳过特定异常
                     }
+
+                    //memgraph exception
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Expected a") && ex.getCause().getMessage().contains("but got null")) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Transaction was asked to abort because of transaction timeout") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Returning a deleted object as a result") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("MATCH can't be put after RETURN clause or after an update") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Trying to get")&& ex.getCause().getMessage().contains ("from a deleted") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Failed to remove node because of it's existing connections. Consider using DETACH DELETE") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Argument of UNWIND must be a list, but 'null' was provided") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+
+                    filteredExceptions.add(ex);
+                    // 拼接非正常异常的信息
+                    sb.append(ex.getMessage());
+                    sb.append("\n");
+                }
+
+                // 如果有其他异常，则抛出 MultipleExceptionsOccurredException
+                if (filteredExceptions.size() == 1) {
+                    throw filteredExceptions.get(0);
+                } else if (filteredExceptions.size() > 1) {
+                    // 如果有多个异常，拼接它们的信息并抛出 MultipleExceptionsOccurredException
+
+                    throw new MultipleExceptionsOccurredException(sb.toString(), filteredExceptions);
+                }
+            }
+        }
+    }
+
+    private void handleExceptions_Mem(List<Exception> exceptions) throws Exception {
+        if (!options.forceCompareAndIgnoreException()) {
+            if (exceptions.size() != 0) {
+                System.out.println("contains crashes");
+                if (exceptions.stream().anyMatch(e -> e.getCause() instanceof MustRestartDatabaseException)) {
+                    System.out.println("must restart");
+                    throw new MustRestartDatabaseException(exceptions.stream().filter(e -> e.getCause() instanceof MustRestartDatabaseException).findFirst().get());
+                }
+                System.out.println("not must restart");
+                // 过滤掉不需要的异常
+                List<Exception> filteredExceptions = new ArrayList<>();
+                StringBuilder sb = new StringBuilder();
+
+                // 遍历所有的异常
+                for (Exception ex : exceptions) {
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Expected a") && ex.getCause().getMessage().contains("but got null")) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Transaction was asked to abort because of transaction timeout") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Returning a deleted object as a result") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("MATCH can't be put after RETURN clause or after an update") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Trying to get")&& ex.getCause().getMessage().contains ("from a deleted") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Failed to remove node because of it's existing connections. Consider using DETACH DELETE") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+                    if (ex.getCause() != null && ex.getCause().getMessage().contains("Argument of UNWIND must be a list, but 'null' was provided") ) {
+                        // 如果是正常的异常，跳过此异常
+                        continue;
+                    }
+
+
 
                     filteredExceptions.add(ex);
                     // 拼接非正常异常的信息

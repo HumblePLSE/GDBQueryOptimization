@@ -41,49 +41,6 @@ public abstract class CypherProviderAdapter<O extends DBMSSpecificOptions> exten
                 }
             } catch (Exception e) {
                 System.err.println("Error executing query: " + query.getQueryString());
-                e.prpackage org.example.project.cypher;
-
-import org.example.project.*;
-//import org.example.project.cypher.algorithm.*;
-import org.example.project.common.oracle.TestOracle;
-import org.example.project.cypher.oracle.DifferentialNonEmptyBranchOracle;
-import org.example.project.cypher.gen.GraphManager;
-
-import org.example.project.DBMSSpecificOptions;
-import org.example.project.MainOptions;
-import org.example.project.OracleFactory;
-import org.example.project.ProviderAdapter;
-import org.example.project.cypher.gen.Generator;
-import org.example.project.exceptions.DatabaseCrashException;
-import org.example.project.exceptions.MultipleExceptionsOccurredException;
-import org.example.project.exceptions.MustRestartDatabaseException;
-
-import java.util.List;
-
-public abstract class CypherProviderAdapter<O extends DBMSSpecificOptions> extends ProviderAdapter<O, CypherConnection> {
-
-    public CypherProviderAdapter(Class<O> optionClass) {
-        super(optionClass);
-    }
-
-    @Override
-    public void generateAndTestDatabase(GlobalState globalState) throws Exception { //todo 主过程
-        Generator generator = new Generator(globalState);
-
-        List<CypherQueryAdapter> queries = generator.getGraphManager().generateCreateGraphQueries();
-
-//        RandomGraphGenerator<G,S> graphGenerator = new RandomGraphGenerator<>(globalState);
-//        queries = graphGenerator.createGraph(globalState);
-
-        for (CypherQueryAdapter query : queries) {
-            try {
-                // 调用 CypherQueryAdapter 的 execute 方法执行查询
-                boolean success = query.executeAndLog(globalState);
-                if (success) {
-                    globalState.getState().logCreateStatement(query); // 记录日志
-                }
-            } catch (Exception e) {
-                System.err.println("Error executing query: " + query.getQueryString());
                 e.printStackTrace();
                 // 可根据需求决定是否继续执行其他查询或终止
             }

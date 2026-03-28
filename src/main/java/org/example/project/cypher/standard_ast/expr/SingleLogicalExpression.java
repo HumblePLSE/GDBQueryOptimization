@@ -25,33 +25,6 @@ public class SingleLogicalExpression extends CypherExpression {
     }
 
     public static SingleLogicalOperation randomOperation() {
-        Randomly randomly = nepackage org.example.project.cypher.standard_ast.expr;
-
-import org.example.project.Randomly;
-import org.example.project.cypher.ast.IExpression;
-
-import java.util.Map;
-
-public class SingleLogicalExpression extends CypherExpression {
-
-    private IExpression child;
-    private final SingleLogicalOperation op;
-
-    public SingleLogicalExpression(IExpression child, SingleLogicalOperation op) {
-        this.child = child;
-        this.op = op;
-        child.setParentExpression(this);
-    }
-
-    public IExpression getChildExpression() {
-        return child;
-    }
-
-    public SingleLogicalOperation getOperation() {
-        return op;
-    }
-
-    public static SingleLogicalOperation randomOperation() {
         Randomly randomly = new Randomly();
         int operationNum = randomly.getInteger(0, 100);
         if (operationNum < 40) {

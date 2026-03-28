@@ -35,43 +35,6 @@ public class UnwindClause extends ProjectingClause {
     @Override
     public boolean validate() {
         return unwindList != null && !unwindList.isEmpty() &&
-             package org.example.project.cypher.standard_ast;
-
-import org.example.project.cypher.gen.AsVariableManager;
-import org.example.project.cypher.gen.GraphManager;
-import org.example.project.Randomly;
-import org.example.project.cypher.gen.NodeVariableManager;
-import org.example.project.cypher.gen.RelationshipVariableManager;
-import org.example.project.cypher.standard_ast.expr.ExprUnknownVal;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-/**
- * Represents an UNWIND clause in Cypher.
- */
-public class UnwindClause extends ProjectingClause {
-    private final String unwindList;  // UNWIND 的列表表达式（可以是变量名或显式列表）
-    private final String alias;        // 解包后的别名
-
-    public UnwindClause(String unwindList, String alias) {
-        super("UNWIND");
-        this.unwindList = unwindList;
-        this.alias = alias;
-    }
-
-    @Override
-    public String toCypher() {
-        return (alias != null && !alias.isEmpty())
-                ? "UNWIND " + unwindList + " AS " + alias
-                : "UNWIND " + unwindList;
-    }
-
-    @Override
-    public boolean validate() {
-        return unwindList != null && !unwindList.isEmpty() &&
                 alias != null && !alias.isEmpty(); // 确保别名是合法变量名
     }
 

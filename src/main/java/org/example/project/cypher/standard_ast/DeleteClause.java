@@ -19,27 +19,6 @@ public class DeleteClause extends WritingClause {
     private final List<String> relationshipVariables;
 
 
-    public DeleteClause(List<String> nodeVariables, List<String> relationshipVpackage org.example.project.cypher.standard_ast;
-
-import org.example.project.Randomly;
-import org.example.project.cypher.gen.GraphManager;
-import org.example.project.cypher.gen.NodeVariableManager;
-import org.example.project.cypher.gen.RelationshipVariableManager;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-/**
- * Represents a DELETE clause in a Cypher query.
- * Deletes a randomly selected relationship or node from the provided managers.
- */
-public class DeleteClause extends WritingClause {
-
-    private final List<String> nodeVariables;
-    private final List<String> relationshipVariables;
-
-
     public DeleteClause(List<String> nodeVariables, List<String> relationshipVariables) {
         super("DELETE");
         this.nodeVariables = nodeVariables;

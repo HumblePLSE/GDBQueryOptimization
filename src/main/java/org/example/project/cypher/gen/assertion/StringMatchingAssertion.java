@@ -1,7 +1,5 @@
 package org.example.project.cypher.gen.assertion;
 
-import org.example.project.cypher.standard_ast.expr.StringMatchingExpression;package org.example.project.cypher.gen.assertion;
-
 import org.example.project.cypher.standard_ast.expr.StringMatchingExpression;
 
 public class StringMatchingAssertion implements ExpressionAssertion {

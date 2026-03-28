@@ -45,53 +45,6 @@ public class BinaryComparisonExpression extends CypherExpression {
         }
     }
 
-    private final IExprpackage org.example.project.cypher.standard_ast.expr;
-
-import org.example.project.Randomly;
-import org.example.project.cypher.ast.IExpression;
-
-import java.util.Map;
-
-public class BinaryComparisonExpression extends CypherExpression {
-
-    public enum BinaryComparisonOperation {
-        SMALLER("<"),
-        EQUAL("="),
-        SMALLER_OR_EQUAL("<="),
-        HIGHER(">"),
-        HIGHER_OR_EQUAL(">="),
-        NOT_EQUAL("<>");
-
-        BinaryComparisonOperation(String textRepresentation) {
-            this.TextRepresentation = textRepresentation;
-        }
-
-        private final String TextRepresentation;
-
-        public String getTextRepresentation() {
-            return this.TextRepresentation;
-        }
-
-        public BinaryComparisonOperation reverse() {
-            switch (this) {
-                case EQUAL:
-                    return NOT_EQUAL;
-                case NOT_EQUAL:
-                    return EQUAL;
-                case HIGHER:
-                    return SMALLER_OR_EQUAL;
-                case HIGHER_OR_EQUAL:
-                    return SMALLER;
-                case SMALLER:
-                    return HIGHER_OR_EQUAL;
-                case SMALLER_OR_EQUAL:
-                    return HIGHER;
-                default:
-                    throw new RuntimeException();
-            }
-        }
-    }
-
     private final IExpression left;
     private final IExpression right;
     private BinaryComparisonOperation op;
