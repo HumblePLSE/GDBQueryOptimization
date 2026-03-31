@@ -22,7 +22,7 @@ This repository contains the dataset, code, and supplementary material for our A
 
 
 
-The [Studied-Issues](https://github.com/swf2000/GDBOpt-Preview/blob/main/Studied-Issues) folder contains the 102 issues used for conducting the characterstic study. These issues were selected from four popular GDBMSs, including Neo4j, Memgraph, RedisGraph, and Kuzu. For each issue, we manually inspect and analyze the issue message, source code, bug-exposing test, commit message, and bug patch to understand its root cause, manifestation method, and fix strategy. Overall, 10 novel and important findings on the causes, manifestations, and fixes of query optimization bugs are obtained at last.
+The [Studied-Issues](https://github.com/HumblePLSE/GDBQueryOptimization/Studied-Issues) folder contains the 102 issues used for conducting the characterstic study. These issues were selected from four popular GDBMSs, including Neo4j, Memgraph, RedisGraph, and Kuzu. For each issue, we manually inspect and analyze the issue message, source code, bug-exposing test, commit message, and bug patch to understand its root cause, manifestation method, and fix strategy. Overall, 10 novel and important findings on the causes, manifestations, and fixes of query optimization bugs are obtained at last.
 
 ## Tool for Exposing Query Optimization Bugs
 
