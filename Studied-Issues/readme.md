@@ -21,7 +21,7 @@ To help present the root causes, the different root cause categories are denoted
 | 1 |Neo4j|[Neo4j-4315](https://github.com/neo4j/neo4j/issues/4315) | 6 | NO | YES | Wrong | NO |Design|
 | 2 |Neo4j|[Neo4j-5921](https://github.com/neo4j/neo4j/issues/5921) | 3 | NO | YES | Error | NO | POC| 
 | 3 |Neo4j|[Neo4j-5986](https://github.com/neo4j/neo4j/issues/5986) | 7 | NO | YES | Error | NO | COND + POC |
-| 4 |Neo4j|[Neo4j-6615](https://github.com/neo4j/neo4j/issues/6615) | 10 | NO | NO | Performance| NO | Design|
+| 4 |Neo4j|[Neo4j-6615](https://github.com/neo4j/neo4j/issues/6615) | 10 | Unknown | Unknown | Performance| NO | Design|
 | 5 |Neo4j|[Neo4j-6947](https://github.com/neo4j/neo4j/issues/6947) | 1 | NO | YES | Error | NO | CONDStat|
 | 6 |Neo4j|[Neo4j-6956](https://github.com/neo4j/neo4j/issues/6956) | 3 | NO | YES | Error | NO | CONDStat | 
 | 7 |Neo4j|[Neo4j-7415](https://github.com/neo4j/neo4j/issues/7415) | 1 | NO | YES | Performance | NO | Other|
