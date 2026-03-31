@@ -22,13 +22,13 @@ This repository contains the dataset, code, and supplementary material for our A
 
 
 
-The [Studied-Issues](https://github.com/HumblePLSE/GDBQueryOptimization/Studied-Issues) folder contains the 102 issues used for conducting the characterstic study. These issues were selected from four popular GDBMSs, including Neo4j, Memgraph, RedisGraph, and Kuzu. For each issue, we manually inspect and analyze the issue message, source code, bug-exposing test, commit message, and bug patch to understand its root cause, manifestation method, and fix strategy. Overall, 10 novel and important findings on the causes, manifestations, and fixes of query optimization bugs are obtained at last.
+The [Studied-Issues](./Studied-Issues) folder contains the 102 issues used for conducting the characterstic study. These issues were selected from four popular GDBMSs, including Neo4j, Memgraph, RedisGraph, and Kuzu. For each issue, we manually inspect and analyze the issue message, source code, bug-exposing test, commit message, and bug patch to understand its root cause, manifestation method, and fix strategy. Overall, 10 novel and important findings on the causes, manifestations, and fixes of query optimization bugs are obtained at last.
 
 ## Tool for Exposing Query Optimization Bugs
 
 
 
-To demonstrate the value of our characteristic study, we develop a testing tool based on our finding about the manifestation of query optimization bugs. The tool is implemented on top of [GDSmith](https://github.com/ddaa2000/GDsmith), and uses our findings to guide the generation of tests that can effecitively expose query optimization bugs. Our re-implementation consists of around 10K new non-comment lines of Java code, and the [src](https://github.com/swf2000/GDBOpt-Preview/blob/main/src) folder contains the source code. The packaged code is given in tool.jar.
+To demonstrate the value of our characteristic study, we develop a testing tool based on our finding about the manifestation of query optimization bugs. The tool is implemented on top of [GDSmith](https://github.com/ddaa2000/GDsmith), and uses our findings to guide the generation of tests that can effecitively expose query optimization bugs. Our re-implementation consists of around 10K new non-comment lines of Java code, and the [src](./src) folder contains the source code. The packaged code is given in tool.jar.
 
 #### Installation
 
@@ -119,4 +119,4 @@ The supprt for other GDBMSs (for instance Kuzu) is in progress.
 
 We evaluate the tool using the latest available release versions of Neo4j and Memgraph, the two most popular GDBMSs that use Cypher as the query language. During our testing period, if a new version of the two tested GDBMSs is released, we set up the tool to test the updated versions. More specifically, we test Neo4j starting from version 5.25.1 and Memgraph starting from version 3.0.0.
 
-Overall, the tool found 20 unique bugs, including 12 in Neo4j and 8 in Memgraph. Among of them were confirmed, 11 fixed, at least 10 of them are query optimization bugs. These results demonstrate that the tool is practical and effective in detecting query optimization bugs in GDBMSs. The overall bug information can be found in [Found-Bugs](https://github.com/swf2000/GDBOpt-Preview/blob/main/Found-Bugs) folder.
+Overall, the tool found 20 unique bugs, including 12 in Neo4j and 8 in Memgraph. Among of them were confirmed, 11 fixed, at least 10 of them are query optimization bugs. These results demonstrate that the tool is practical and effective in detecting query optimization bugs in GDBMSs. The overall bug information can be found in [Found-Bugs](./Found-Bugs) folder.
