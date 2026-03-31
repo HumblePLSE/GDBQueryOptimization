@@ -111,7 +111,7 @@ To compare results across different versions, you only need to ensure that the r
 - **Neo4j**
 - **Memgraph**
 
-The supprt for other GDBMSs (for instance Kuzu) is in progress.
+The supprt for other GDBMSs (for instance FalkorDB) is in progress.
 
 ## Evaluation of the Tool
 
