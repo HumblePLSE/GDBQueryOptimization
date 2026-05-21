@@ -2,7 +2,7 @@
 
 
 
-This repository contains the dataset, code, and supplementary material for our ASPLOS work "Understanding Query Optimization Bugs in Graph Database Systems". Recent years have witnessed an ever-growing usage of graph database management systems (GDBMSs) in various data-driven applications. Query optimization aims to improve the performance of database queries by identifying the most efficient way to execute them, and is an important stage of GDBMS workflow. Like other sophisticated systems, such as compilers, the query optimization process is complex and its implementation is prone to bugs. This work conducts the first characteristic study of query optimization bugs in GDBMSs, including the root causes, manifestation methods, and fix strategies, and delivers 10 novel and important findings about them. Based on the characteristic study, we also developed a testing tool tailored to uncover GDBMS query optimization bugs, and the tool found 20 unique GDBMS bugs, at least 10 of which are query optimization bugs. If you find work useful in your research, please cite our paper
+This repository contains the dataset, code, and supplementary material for our ASPLOS work "Understanding Query Optimization Bugs in Graph Database Systems". Recent years have witnessed an ever-growing usage of graph database management systems (GDBMSs) in various data-driven applications. Query optimization aims to improve the performance of database queries by identifying the most efficient way to execute them, and is an important stage of GDBMS workflow. Like other sophisticated systems, such as compilers, the query optimization process is complex and its implementation is prone to bugs. This work conducts the first characteristic study of query optimization bugs in GDBMSs, including the root causes, manifestation methods, and fix strategies, and delivers 10 novel and important findings about them. Based on the characteristic study, we also developed a testing tool tailored to uncover GDBMS query optimization bugs, and the tool found 20 unique GDBMS bugs, at least 10 of which are query optimization bugs. If you find this work useful in your research, please cite our paper
 
 ```
 @inproceedings{GDBMS-QueryOpt,
@@ -91,7 +91,7 @@ Note that the tool does not automatically create database users. You may need to
 
 
 - `--num-tries <N>` → number of graphs to generate
-- `--num-queries <M>` → queries per graph
+- `--num-queries <M>` → number of queries per graph
 - --target-db <neo4j|memgraph> → target GDBMS to test
 - connection details are defined in `config.json`.
 
@@ -111,7 +111,7 @@ To compare results across different versions, you only need to ensure that the r
 - **Neo4j**
 - **Memgraph**
 
-The supprt for other GDBMSs (for instance FalkorDB) is in progress.
+The support for other GDBMSs (for instance FalkorDB) is in progress.
 
 ## Evaluation of the Tool
 
